@@ -71,6 +71,7 @@ chmod +x YTDL.sh
 - [ ] **Parallel Download Support**: Implement concurrent downloads for playlist videos to significantly reduce total download time
 - [ ] **Resume Capability**: Add support for resuming interrupted downloads
 - [ ] **Download Queue Management**: Allow users to queue multiple URLs and process them sequentially
+- [ ] **Subtitle Merging**: Process subtitle merging one by one to avooid errors
 - [ ] **ETA Calculation**: Display estimated time remaining for current download and total queue
 - [ ] **Custom Output Directory**: Allow users to specify custom download locations
 - [ ] **Multiple Subtitle Languages**: Support for downloading and embedding multiple subtitle languages
@@ -85,3 +86,4 @@ chmod +x YTDL.sh
 **Shivam Raj** ([@BetterCallShiv](https://github.com/BetterCallShiv))
 - Email: [bettercallshiv@gmail.com](mailto:bettercallshiv@gmail.com)
 - GitHub: [github.com/BetterCallShiv](https://github.com/BetterCallShiv)
+
