@@ -1,34 +1,37 @@
 # YTDL - Advanced YouTube Downloader
 
-A powerful shell script for downloading YouTube videos and playlists with embedded subtitles, custom fonts and high-quality output formatting.
+A powerful, interactive Python-based command-line application for downloading YouTube videos and playlists. It features a beautiful terminal UI, automatic subtitle styling, custom font embedding, metadata injection and parallel processing.
 
 ## 🚀 Features
 
-- **Multi-Quality Downloads**: Support for 144p to 4K (2160p) video quality
-- **Playlist Support**: Download entire playlists with automatic indexing
-- **Embedded Subtitles**: Auto-download and embed English subtitles with custom styling
-- **Custom Font Integration**: Uses Montara Gothic font for enhanced subtitle appearance  
-- **Thumbnail Integration**: Embeds video thumbnails as cover art
-- **Metadata Preservation**: Maintains video metadata and adds custom tags
-- **Progress Tracking**: Real-time download progress with completion time statistics
-- **Clean Output**: Automatically removes temporary files and organizes downloads
+- **Beautiful Interactive UI**: Built with `Rich`, featuring live progress bars, real-time download/encoding stats and clean menus.
+- **Multi-Quality Downloads**: Seamlessly pick formats ranging from 144p all the way up to 4K (2160p).
+- **Advanced Playlist Support**: Automatically detects playlists, creates dedicated subdirectories for them and downloads the videos in parallel.
+- **Subtitle Processing**: Automatically probes YouTube for available subtitle tracks, downloads them, converts them to .ass and embeds them into the final MKV container with custom styling.
+- **Custom Fonts**: Embeds custom fonts directly into the MKV so your subtitles look gorgeous on any media player.
+- **Thumbnail & Metadata Injection**: Automatically embeds the highest quality video thumbnail as cover art and preserves crucial video metadata.
+- **Parallel Downloading**: Queue multiple URLs or process massive playlists using multi-threading (up to 5 concurrent workers) to saturate your bandwidth.
+- **Resilient Error Recovery**: Smart retry logic automatically catches YouTube `403 Forbidden` disconnects and auto-restarts the download exactly where it left off.
+- **Batch Processing**: Feed it a `.txt` file full of URLs and walk away while it processes the entire batch.
+- **Dependency Management**: Built-in dependency checker (ffmpeg, yt-dlp, etc.) and a one-click `yt-dlp` updater right from the menu.
 
 ## 📋 Prerequisites
 
-Before using this script ensure you have the following dependencies installed:
+Before using this script, ensure you have the following dependencies installed on your system (Linux / WSL / Windows):
 
 ```bash
-# Core dependencies
-sudo apt install ffmpeg wget python3 python3-pip
+# 1. Install FFmpeg (Required for audio/video muxing)
+# Debian/Ubuntu:
+sudo apt update && sudo apt install ffmpeg
 
-# Install yt-dlp
-pip3 install yt-dlp
+# 2. Install Python 3 and pip
+sudo apt install python3 python3-pip
 
-# Install subtitle fixer (run once)
-python3 -m pip install -U https://github.com/bindestriche/srt_fix/archive/refs/heads/master.zip
+# 3. Install required Python packages
+pip install yt-dlp rich requests srt_fix
 ```
 
-## 🛠️ Installation
+## 🛠️ Installation & Usage
 
 1. Clone this repository:
 ```bash
@@ -36,50 +39,37 @@ git clone https://github.com/BetterCallShiv/YTDL.git
 cd YTDL
 ```
 
-2. Make the script executable:
+2. Run the interactive script:
 ```bash
-chmod +x YTDL.sh
+python YTDL.py
 ```
 
-3. Run the script:
-```bash
-./YTDL.sh
-```
+### Modes of Operation
+You can launch the script in interactive mode or pass arguments directly:
+- **Interactive Mode**: `python YTDL.py` (Brings up the visual main menu)
+- **Fast Single Video**: `python YTDL.py "https://youtube.com/watch?v=..." -q 1080`
+- **Fast Playlist**: `python YTDL.py "https://youtube.com/playlist?..." -q 720`
+- **Batch File**: `python YTDL.py --batch urls.txt -q best`
+- **Update Tool**: `python YTDL.py --update`
 
-## 📖 Usage
+## ⚙️ Configuration & Customization
+- **Fonts**: Place your custom fonts inside a `fonts.zip` archive or directly define a `.ttf` file path in the `Settings` menu.
+- **Output Directory**: Change your default save location inside the interactive `Settings` menu.
+- **Numbering**: Toggle automatic prefix numbering (e.g., `001 - Video Title.mkv`) for playlists to keep them perfectly ordered.
 
-1. **Run the script**: Execute `./YTDL.sh`
-2. **Paste YouTube URL**: Enter any YouTube video or playlist URL
-3. **Select Quality**: Choose from available quality options (144p - 4K)
-4. **Wait for completion**: The script handles everything automatically
+## 📝 Changelog / Completed TODOs
 
-### Supported URL Types
-- Individual YouTube videos
-- YouTube playlists
-- YouTube channels (as playlists)
-
-## 🎯 Output Features
-
-- **Format**: High-quality MKV files with embedded content
-- **Subtitles**: Styled ASS subtitles with custom font
-- **Thumbnails**: Embedded as cover art
-- **Metadata**: Complete video information preserved
-- **Organization**: Clean file structure with descriptive names
-
-## 📝 TODO
-
-- [ ] **Parallel Download Support**: Implement concurrent downloads for playlist videos to significantly reduce total download time
-- [ ] **Resume Capability**: Add support for resuming interrupted downloads
-- [ ] **Download Queue Management**: Allow users to queue multiple URLs and process them sequentially
-- [ ] **Subtitle Merging**: Process subtitle merging one by one to avoid errors
-- [ ] **ETA Calculation**: Display estimated time remaining for current download and total queue
-- [ ] **Custom Output Directory**: Allow users to specify custom download locations
-- [ ] **Multiple Subtitle Languages**: Support for downloading and embedding multiple subtitle languages
-- [ ] **Batch Processing**: Support for processing multiple URLs from a text file
-- [ ] **Download History**: Keep track of previously downloaded videos to avoid duplicates
-- [ ] **Error Handling**: Improve error messages and recovery mechanisms
-- [ ] **Dependency Checking**: Add automatic dependency verification at startup
-- [ ] **Update Mechanism**: Auto-update functionality for yt-dlp and script
+- [x] **Parallel Download Support**: Implemented concurrent downloads for playlist videos using ThreadPoolExecutor.
+- [x] **Resume Capability**: yt-dlp handles chunk resuming natively, backed by our smart exception-catching retry loops.
+- [x] **Download Queue Management**: Interactive queue builder added.
+- [x] **Subtitle Merging**: Sequential ffmpeg pass implemented to securely embed multiple languages.
+- [x] **ETA Calculation**: Live speeds, file sizes, and ETA tracked for both download and ffmpeg muxing phases.
+- [x] **Custom Output Directory**: Configurable via the settings menu.
+- [x] **Multiple Subtitle Languages**: Real-time probing allows multi-select (e.g., `1,3,4`).
+- [x] **Batch Processing**: Fully supported via file ingestion.
+- [x] **Error Handling**: Implemented aggressive retry loops for 429/403 HTTP drops and bypassed minor yt-dlp post-processing errors.
+- [x] **Dependency Checking**: Automated pre-flight checks added.
+- [x] **Update Mechanism**: Auto-update yt-dlp option integrated into the main menu.
 
 ## 👨‍💻 Author
 
